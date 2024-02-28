@@ -94,6 +94,11 @@ class UserValidation:
             return
         raise ValueError("Invalid Password")
     
+    def validate_email_list(self,email_list):
+        """method for validating email list"""
+        lst = list(map(self.validate_email,email_list))
+        print(lst,"\n")
+
 if __name__ == '__main__':
     try:
         user = UserValidation()
@@ -107,5 +112,29 @@ if __name__ == '__main__':
         user.validate_phone(phone)
         password = input("Enter your password  :")
         user.validate_password(password)
+        valid_email_list=['abc@yahoo.com',
+                        'abc-100@yahoo.com',
+                        'abc.100@yahoo.com',
+                        'abc111@abc.com',
+                        'abc111@abc.net',
+                        'abc.100@abc.com.au',
+                        'abc@1.com',
+                        'abc@gmail.com.com',
+                        'abc+100@gmail.com']
+        invalid_email_list=['abc',
+                        'abc@.com.my',
+                        'abc123@gmail.a',
+                        'abc123@.com',
+                        'abc123@.com.com',
+                        '.abc@abc.com',
+                        'abc()*@gmail.com',
+                        'abc@%*.com',
+                        'abc..2002@gmail.com',
+                        'abc.@gmail.com',
+                        'abc@abc@gmail.com',
+                        'abc@gmail.com.1a',
+                        'abc@gmail.com.aa.au']
+        user.validate_email_list(valid_email_list)
+        user.validate_email_list(invalid_email_list)
     except ValueError as e:
         logger.exception(e)
