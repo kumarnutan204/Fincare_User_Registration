@@ -12,6 +12,7 @@ class UserValidation:
     def __init__(self) -> None:
         self.__first_name = None
         self.__last_name = None
+        self.__email = None
 
     @property
     def first_name(self):
@@ -21,6 +22,10 @@ class UserValidation:
     def last_name(self):
         """getter for last name"""
         return self.__last_name
+    @property
+    def email(self):
+        """getter for email"""
+        return self.__email
 
     def validate_fname(self,first_name):
         """method for validating first name"""
@@ -46,6 +51,17 @@ class UserValidation:
         else:
             logging.info('Invalid last name')
             raise ValueError("Invalid last Name")
+    def validate_email(self,email_id):
+        """method for validating email"""
+        email_pattern=re.compile("[^0-9][a-z0-9\\-\\+]+[.a-z0-9]*@[a-z0-9]+.[a-z]+[.in]*$")
+        email_valid=email_pattern.match(email_id)
+        if email_valid:
+            # print("Enter a valid email : ie abc.xyz@bl.co.in ")
+            self.__email = email_id
+            logging.info('Valid email')
+            return
+        logging.info('Invalid email')
+        raise ValueError("Invalid email ")
 
 if __name__ == '__main__':
     try:
@@ -54,5 +70,7 @@ if __name__ == '__main__':
         user.validate_fname(fname)
         lname= input("enter last name :")
         user.validate_lname(lname)
+        email= input("Enter your email :")
+        user.validate_email(email)
     except ValueError as e:
         logger.exception(e)
