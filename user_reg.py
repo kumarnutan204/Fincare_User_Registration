@@ -14,6 +14,7 @@ class UserValidation:
         self.__last_name = None
         self.__email = None
         self.__phone=None
+        self.__password = None
 
     @property
     def first_name(self):
@@ -31,6 +32,10 @@ class UserValidation:
     def phone(self):
         """getter for phone number"""
         return self.__phone
+    @property
+    def password(self):
+        """getter for password"""
+        return self.__password
 
     def validate_fname(self,first_name):
         """method for validating first name"""
@@ -79,7 +84,16 @@ class UserValidation:
             logging.info('Invalid phone number')
             raise ValueError("Invalid phone number")
 
-
+    def validate_password(self, password_string):
+        """method for validating password"""
+        # pattern = "^[A-Za-z0-9$@+.*#]{8,}$"
+        pattern="^(?=.{8,32}$)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*"
+        if re.match(pattern=pattern, string=password_string):
+            self.__password = password_string
+            logging.info('Valid password')
+            return
+        raise ValueError("Invalid Password")
+    
 if __name__ == '__main__':
     try:
         user = UserValidation()
@@ -91,5 +105,7 @@ if __name__ == '__main__':
         user.validate_email(email)
         phone= input("Enter your phone number  :")
         user.validate_phone(phone)
+        password = input("Enter your password  :")
+        user.validate_password(password)
     except ValueError as e:
         logger.exception(e)
